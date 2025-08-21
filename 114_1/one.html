@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>虎尾國中課表查詢</title>
+
+<style>
+/* ================= THEME：虎尾橘 + 無障礙（AA） ================= */
+:root{
+  /* Light theme（柔和橘、低眩光） */
+  --bg:        #fff7ed;   /* orange-50 */
+  --ink:       #1f2937;   /* slate-800 */
+  --brand:     #ea580c;   /* orange-600 (品牌橘) */
+  --brand-700: #c2410c;   /* orange-700（hover/selected 用，白字 AA） */
+  --soft:      #ffe8d5;   /* 卡片淺橘底 */
+  --line:      #f1c9a8;   /* 橘系淡邊線 */
+  --focus:     #7c3aed;   /* 聚焦輪廓（紫），與橘對比清楚 */
+}
+
+@media (prefers-color-scheme: dark){
+  :root{
+    /* Dark theme（低眩光深底） */
+    --bg:    #0f1115;
+    --ink:   #e5e7eb;    /* 淺字 */
+    --brand: #f59e0b;    /* 深色底用較亮橘 */
+    --brand-700:#f0a314; /* hover/selected 稍深 */
+    --soft:  #1a1d22;    /* 深卡片底 */
+    --line:  #2a2f36;
+    --focus: #f59e0b;    /* 深底聚焦改用橘 */
+  }
+}
+
+/* ====== 使用者強制覆蓋（按鈕切換） ====== */
+body.light-mode{
+  --bg:#fff7ed; --ink:#1f2937; --brand:#ea580c; --brand-700:#c2410c;
+  --soft:#ffe8d5; --line:#f1c9a8; --focus:#7c3aed;
+}
+body.dark-mode{
+  --bg:#0f1115; --ink:#e5e7eb; --brand:#f59e0b; --brand-700:#f0a314;
+  --soft:#1a1d22; --line:#2a2f36; --focus:#f59e0b;
+}
+
+/* ================= Base ================= */
+html,body{margin:0}
+body{
+  font-family:"Noto Sans TC","Microsoft JhengHei",system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+  background:var(--bg); color:var(--ink); line-height:1.6;
+  -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
+}
+
+/* ================= Topbar（與按鈕緊黏） ================= */
+.topbar{
+  position:relative; /* 給切換鍵定位 */
+  text-align:center; font-size:14px; padding:6px 0;
+  background:var(--bg); color:var(--ink);
+  user-select:none;
+}
+.topbar a{color:var(--brand); text-decoration:none; margin:0 6px}
+.topbar a:hover{color:var(--brand-700); text-decoration:underline}
+.topbar .date{color:var(--brand-700); font-weight:700}
+
+/* 深/淺色切換按鈕（右上角） */
+.theme-toggle{
+  position:absolute; top:6px; right:10px;
+  background:none; border:1px solid var(--line);
+  border-radius:8px; padding:4px 8px;
+  font-size:14px; line-height:1; cursor:pointer;
+  color:var(--brand); background:var(--soft);
+}
+.theme-toggle:hover{background:var(--brand-700); color:#fff; border-color:var(--brand-700)}
+.theme-toggle:focus-visible{outline:3px solid var(--focus); outline-offset:2px}
+
+/* ================= Tabs ================= */
+.tabs{max-width:1280px; margin:0 auto;}
+
+/* 標籤列：上下左右相黏（多行也無縫） */
+.tablist{
+  display:flex; flex-wrap:wrap;
+  list-style:none; padding:0; margin:0;
+  background:var(--bg);
+  border-top:1px solid var(--line);
+  border-bottom:1px solid var(--line);
+}
+
+/* 用 -1px 負邊距把相鄰邊框合併，保證上下左右都貼齊 */
+.tab{
+  appearance:none; background:var(--soft); color:var(--ink);
+  border:1px solid var(--line);
+  padding:4px 10px; font-size:13px; line-height:1.2;
+  cursor:pointer; user-select:none;
+  margin:0;
+  margin-left:-1px;       /* 左右相黏 */
+  margin-top:-1px;        /* 上下相黏（多行也無縫） */
+  transition:background .15s ease,color .15s ease,border-color .15s ease;
+}
+.tab:first-child{margin-left:0}
+.tab:focus-visible{
+  outline:3px solid var(--focus);
+  outline-offset:-1px; /* 貼齊按鈕邊緣 */
+}
+
+/* ========== 關鍵修正：預設就有「回饋」 ========== */
+/* 任何環境下：hover / selected 預設樣式（淺色友善） */
+.tab:hover,
+.tab[aria-selected="true"]{
+  background: var(--brand-700);
+  color:#fff;
+  border-color: var(--brand-700);
+}
+
+/* 深色模式覆蓋：hover / selected 改成橘底 + 深字（AA 對比） */
+body.dark-mode .tab:hover,
+body.dark-mode .tab[aria-selected="true"],
+@media (prefers-color-scheme: dark){
+  body:not(.light-mode) .tab:hover,
+  body:not(.light-mode) .tab[aria-selected="true"]{
+    background: var(--brand);
+    color:#0f1115;
+    border-color: var(--brand);
+  }
+}
+
+/* ================= Panels（與按鈕緊黏，柔和卡片） ================= */
+.panels{margin:0; padding:8px;}
+.panel{display:block}
+.panel[hidden]{display:none}
+.panel-inner{
+  background:var(--soft);
+  border:1px solid var(--line);
+  border-radius:12px;
+  padding:8px;
+}
+.panel img{display:block; max-width:100%; height:auto; margin:auto}
+
+/* ================= RWD ================= */
+@media (max-width:640px){
+  .tab{font-size:12px; padding:3px 8px}
+  .panel-inner{padding:6px}
+  .theme-toggle{top:6px; right:8px; font-size:13px}
+}
+</style>
+</head>
+<body>
+
+<!-- 版頭（貼齊下方按鈕） -->
+<div class="topbar" role="banner">
+  <a href="https://hwjh.ylc.edu.tw/" target="_blank" rel="noopener">虎國</a>114-1
+  <span class="date">(08.21)</span>
+  <a href="phone.pdf" target="_blank" rel="noopener">分機</a>｜
+  <a href="indexs.html" target="_blank" rel="noopener">座位</a>｜
+  <a href="traffic_guard.pdf" target="_blank" rel="noopener">導護</a>｜
+  <a href="https://github.com/" target="_blank" rel="noopener">後臺</a>｜
+
+
+  <!-- 深/淺色切換按鈕 -->
+  <button id="themeToggle" class="theme-toggle" type="button" aria-label="切換深淺色" aria-pressed="false">🌙</button>
+</div>
+
+<!-- Tabs 主體 -->
+<div class="tabs" id="scheduleTabs">
+  <!-- 標籤列（完整，不省略） -->
+  <ul class="tablist" role="tablist" aria-label="課表分類">
+    <!-- 類別 -->
+    <li><button class="tab" role="tab" id="tab-lab-com" aria-controls="panel-lab-com" aria-selected="true"  tabindex="0">#電腦</button></li>
+    <li><button class="tab" role="tab" id="tab-lab-it"  aria-controls="panel-lab-it"  aria-selected="false" tabindex="-1">#資科</button></li>
+    <li><button class="tab" role="tab" id="tab-lab-pe"  aria-controls="panel-lab-pe"  aria-selected="false" tabindex="-1">#體育</button></li>
+
+    <!-- 老師 -->
+    <li><button class="tab" role="tab" id="tab-tea-001" aria-controls="panel-tea-001" aria-selected="false" tabindex="-1">晏柔</button></li>
+    <li><button class="tab" role="tab" id="tab-tea-002" aria-controls="panel-tea-002" aria-selected="false" tabindex="-1">思穎</button></li>
+    <li><button class="tab" role="tab" id="tab-tea-003" aria-controls="panel-tea-003" aria-selected="false" tabindex="-1">雪梅</button></li>
+    <li><button class="tab" role="tab" id="tab-tea-004" aria-controls="panel-tea-004" aria-selected="false" tabindex="-1">9-3淑英</button></li>
+    <li><button class="tab" role="tab" id="tab-tea-005" aria-controls="panel-tea-005" aria-selected="false" tabindex="-1">若葳</button></li>
+    <li><button class="tab" role="tab" id="tab-tea-006" aria-controls="panel-tea-006" aria-selected="false" tabindex="-1">昊霖</button></li>
+    <li><button class="tab" role="tab" id="tab-tea-andy" aria-controls="panel-tea-andy" aria-selected="false" tabindex="-1">Andy</button></li>
+    <li><button class="tab" role="tab" id="tab-tea-007" aria-controls="panel-tea-007" aria-selected="false" tabindex="-1">珮真</button></li>
+    <li><button class="tab" role="tab" id="tab-tea-008" aria-controls="panel-tea-008" aria-selected="false" tabindex="-1">怡伶</button></li>
+    <li><button class="tab" role="tab" id="tab-tea-009" aria-controls="panel-tea-009" aria-selected="false" tabindex="-1">淑敏</button></li>
+    <li><button class="tab" role="tab" id="tab-tea-010" aria-controls="panel-tea-010" aria-selected="false" tabindex="-1">怡方</button></li>
+    <li><button class="tab" role="tab" id="tab-tea-011" aria-controls="panel-tea-011" aria-selected="false" tabindex="-1">頤庭</button></li>
+    <li><button class="tab" role="tab" id="tab-tea-012" aria-controls="panel-tea-012" aria-selected="false" tabindex="-1">春池</button></li>
+    <li><button class="tab" role="tab" id="tab-tea-013" aria-controls="panel-tea-013" aria-selected="false" tabindex="-1">之敏</button></li>
+    <li><button class="tab" role="tab" id="tab-tea-014" aria-controls="panel-tea-014" aria-selected="false" tabindex="-1">淑琳</button></li>
+    <li><button class="tab" role="tab" id="tab-tea-015" aria-controls="panel-tea-015" aria-selected="false" tabindex="-1">7-1靜芬</button></li>
+    <li><button class="tab" role="tab" id="tab-tea-016" aria-controls="panel-tea-016" aria-selected="false" tabindex="-1">順閔</button></li>
+    <li><button class="tab" role="tab" id="tab-tea-017" aria-controls="panel-tea-017" aria-selected="false" tabindex="-1">7-2永欽</button></li>
+    <li><button class="tab" role="tab" id="tab-tea-018" aria-controls="panel-tea-018" aria-selected="false" tabindex="-1">迪元</button></li>
+    <li><button class="tab" role="tab" id="tab-tea-019" aria-controls="panel-tea-019" aria-selected="false" tabindex="-1">7-3慧珊</button></li>
+    <li><button class="tab" role="tab" id="tab-tea-020" aria-controls="panel-tea-020" aria-selected="false" tabindex="-1">上峯</button></li>
+    <li><button class="tab" role="tab" id="tab-tea-021" aria-controls="panel-tea-021" aria-selected="false" tabindex="-1">育琳</button></li>
+    <li><button class="tab" role="tab" id="tab-tea-022" aria-controls="panel-tea-022" aria-selected="false" tabindex="-1">柔茜</button></li>
+    <li><button class="tab" role="tab" id="tab-tea-023" aria-controls="panel-tea-023" aria-selected="false" tabindex="-1">如立</button></li>
+    <li><button class="tab" role="tab" id="tab-tea-024" aria-controls="panel-tea-024" aria-selected="false" tabindex="-1">雅燁</button></li>
+    <li><button class="tab" role="tab" id="tab-tea-025" aria-controls="panel-tea-025" aria-selected="false" tabindex="-1">國興</button></li>
+    <li><button class="tab" role="tab" id="tab-tea-026" aria-controls="panel-tea-026" aria-selected="false" tabindex="-1">政澤</button></li>
+    <li><button class="tab" role="tab" id="tab-tea-027" aria-controls="panel-tea-027" aria-selected="false" tabindex="-1">9-4玫芬</button></li>
+    <li><button class="tab" role="tab" id="tab-tea-028" aria-controls="panel-tea-028" aria-selected="false" tabindex="-1">8-2麗秋</button></li>
+    <li><button class="tab" role="tab" id="tab-tea-029" aria-controls="panel-tea-029" aria-selected="false" tabindex="-1">8-4詠明</button></li>
+    <li><button class="tab" role="tab" id="tab-tea-030" aria-controls="panel-tea-030" aria-selected="false" tabindex="-1">信遠</button></li>
+    <li><button class="tab" role="tab" id="tab-tea-031" aria-controls="panel-tea-031" aria-selected="false" tabindex="-1">丘威達</button></li>
+    <li><button class="tab" role="tab" id="tab-tea-032" aria-controls="panel-tea-032" aria-selected="false" tabindex="-1">羽彤</button></li>
+    <li><button class="tab" role="tab" id="tab-tea-033" aria-controls="panel-tea-033" aria-selected="false" tabindex="-1">靜雪</button></li>
+
+    <!-- 班級 -->
+    <li><button class="tab" role="tab" id="tab-class-71" aria-controls="panel-class-71" aria-selected="false" tabindex="-1">七１</button></li>
+    <li><button class="tab" role="tab" id="tab-class-72" aria-controls="panel-class-72" aria-selected="false" tabindex="-1">七２</button></li>
+    <li><button class="tab" role="tab" id="tab-class-73" aria-controls="panel-class-73" aria-selected="false" tabindex="-1">七３</button></li>
+    <li><button class="tab" role="tab" id="tab-class-81" aria-controls="panel-class-81" aria-selected="false" tabindex="-1">八１</button></li>
+    <li><button class="tab" role="tab" id="tab-class-82" aria-controls="panel-class-82" aria-selected="false" tabindex="-1">八２</button></li>
+    <li><button class="tab" role="tab" id="tab-class-83" aria-controls="panel-class-83" aria-selected="false" tabindex="-1">八３</button></li>
+    <li><button class="tab" role="tab" id="tab-class-84" aria-controls="panel-class-84" aria-selected="false" tabindex="-1">八４</button></li>
+    <li><button class="tab" role="tab" id="tab-class-91" aria-controls="panel-class-91" aria-selected="false" tabindex="-1">九１</button></li>
+    <li><button class="tab" role="tab" id="tab-class-92" aria-controls="panel-class-92" aria-selected="false" tabindex="-1">九２</button></li>
+    <li><button class="tab" role="tab" id="tab-class-93" aria-controls="panel-class-93" aria-selected="false" tabindex="-1">九３</button></li>
+    <li><button class="tab" role="tab" id="tab-class-94" aria-controls="panel-class-94" aria-selected="false" tabindex="-1">九４</button></li>
+  </ul>
+
+  <!-- 內容區（完整對應） -->
+  <div class="panels">
+    <!-- 類別 -->
+    <div class="panel" role="tabpanel" id="panel-lab-com" aria-labelledby="tab-lab-com">
+      <div class="panel-inner"><img src="lab/com.png" alt=""></div>
+    </div>
+    <div class="panel" role="tabpanel" id="panel-lab-it"  aria-labelledby="tab-lab-it"  hidden>
+      <div class="panel-inner"><img src="lab/it.png" alt=""></div>
+    </div>
+    <div class="panel" role="tabpanel" id="panel-lab-pe"  aria-labelledby="tab-lab-pe"  hidden>
+      <div class="panel-inner"><img src="lab/pe.png" alt=""></div>
+    </div>
+
+    <!-- 老師（001~033 + Andy） -->
+    <div class="panel" role="tabpanel" id="panel-tea-001" aria-labelledby="tab-tea-001" hidden><div class="panel-inner"><img src="tea/001.png" alt=""></div></div>
+    <div class="panel" role="tabpanel" id="panel-tea-002" aria-labelledby="tab-tea-002" hidden><div class="panel-inner"><img src="tea/002.png" alt=""></div></div>
+    <div class="panel" role="tabpanel" id="panel-tea-003" aria-labelledby="tab-tea-003" hidden><div class="panel-inner"><img src="tea/003.png" alt=""></div></div>
+    <div class="panel" role="tabpanel" id="panel-tea-004" aria-labelledby="tab-tea-004" hidden><div class="panel-inner"><img src="tea/004.png" alt=""></div></div>
+    <div class="panel" role="tabpanel" id="panel-tea-005" aria-labelledby="tab-tea-005" hidden><div class="panel-inner"><img src="tea/005.png" alt=""></div></div>
+    <div class="panel" role="tabpanel" id="panel-tea-006" aria-labelledby="tab-tea-006" hidden><div class="panel-inner"><img src="tea/006.png" alt=""></div></div>
+    <div class="panel" role="tabpanel" id="panel-tea-andy" aria-labelledby="tab-tea-andy" hidden><div class="panel-inner"><img src="tea/Andy.png" alt=""></div></div>
+    <div class="panel" role="tabpanel" id="panel-tea-007" aria-labelledby="tab-tea-007" hidden><div class="panel-inner"><img src="tea/007.png" alt=""></div></div>
+    <div class="panel" role="tabpanel" id="panel-tea-008" aria-labelledby="tab-tea-008" hidden><div class="panel-inner"><img src="tea/008.png" alt=""></div></div>
+    <div class="panel" role="tabpanel" id="panel-tea-009" aria-labelledby="tab-tea-009" hidden><div class="panel-inner"><img src="tea/009.png" alt=""></div></div>
+    <div class="panel" role="tabpanel" id="panel-tea-010" aria-labelledby="tab-tea-010" hidden><div class="panel-inner"><img src="tea/010.png" alt=""></div></div>
+    <div class="panel" role="tabpanel" id="panel-tea-011" aria-labelledby="tab-tea-011" hidden><div class="panel-inner"><img src="tea/011.png" alt=""></div></div>
+    <div class="panel" role="tabpanel" id="panel-tea-012" aria-labelledby="tab-tea-012" hidden><div class="panel-inner"><img src="tea/012.png" alt=""></div></div>
+    <div class="panel" role="tabpanel" id="panel-tea-013" aria-labelledby="tab-tea-013" hidden><div class="panel-inner"><img src="tea/013.png" alt=""></div></div>
+    <div class="panel" role="tabpanel" id="panel-tea-014" aria-labelledby="tab-tea-014" hidden><div class="panel-inner"><img src="tea/014.png" alt=""></div></div>
+    <div class="panel" role="tabpanel" id="panel-tea-015" aria-labelledby="tab-tea-015" hidden><div class="panel-inner"><img src="tea/015.png" alt=""></div></div>
+    <div class="panel" role="tabpanel" id="panel-tea-016" aria-labelledby="tab-tea-016" hidden><div class="panel-inner"><img src="tea/016.png" alt=""></div></div>
+    <div class="panel" role="tabpanel" id="panel-tea-017" aria-labelledby="tab-tea-017" hidden><div class="panel-inner"><img src="tea/017.png" alt=""></div></div>
+    <div class="panel" role="tabpanel" id="panel-tea-018" aria-labelledby="tab-tea-018" hidden><div class="panel-inner"><img src="tea/018.png" alt=""></div></div>
+    <div class="panel" role="tabpanel" id="panel-tea-019" aria-labelledby="tab-tea-019" hidden><div class="panel-inner"><img src="tea/019.png" alt=""></div></div>
+    <div class="panel" role="tabpanel" id="panel-tea-020" aria-labelledby="tab-tea-020" hidden><div class="panel-inner"><img src="tea/020.png" alt=""></div></div>
+    <div class="panel" role="tabpanel" id="panel-tea-021" aria-labelledby="tab-tea-021" hidden><div class="panel-inner"><img src="tea/021.png" alt=""></div></div>
+    <div class="panel" role="tabpanel" id="panel-tea-022" aria-labelledby="tab-tea-022" hidden><div class="panel-inner"><img src="tea/022.png" alt=""></div></div>
+    <div class="panel" role="tabpanel" id="panel-tea-023" aria-labelledby="tab-tea-023" hidden><div class="panel-inner"><img src="tea/023.png" alt=""></div></div>
+    <div class="panel" role="tabpanel" id="panel-tea-024" aria-labelledby="tab-tea-024" hidden><div class="panel-inner"><img src="tea/024.png" alt=""></div></div>
+    <div class="panel" role="tabpanel" id="panel-tea-025" aria-labelledby="tab-tea-025" hidden><div class="panel-inner"><img src="tea/025.png" alt=""></div></div>
+    <div class="panel" role="tabpanel" id="panel-tea-026" aria-labelledby="tab-tea-026" hidden><div class="panel-inner"><img src="tea/026.png" alt=""></div></div>
+    <div class="panel" role="tabpanel" id="panel-tea-027" aria-labelledby="tab-tea-027" hidden><div class="panel-inner"><img src="tea/027.png" alt=""></div></div>
+    <div class="panel" role="tabpanel" id="panel-tea-028" aria-labelledby="tab-tea-028" hidden><div class="panel-inner"><img src="tea/028.png" alt=""></div></div>
+    <div class="panel" role="tabpanel" id="panel-tea-029" aria-labelledby="tab-tea-029" hidden><div class="panel-inner"><img src="tea/029.png" alt=""></div></div>
+    <div class="panel" role="tabpanel" id="panel-tea-030" aria-labelledby="tab-tea-030" hidden><div class="panel-inner"><img src="tea/030.png" alt=""></div></div>
+    <div class="panel" role="tabpanel" id="panel-tea-031" aria-labelledby="tab-tea-031" hidden><div class="panel-inner"><img src="tea/031.png" alt=""></div></div>
+    <div class="panel" role="tabpanel" id="panel-tea-032" aria-labelledby="tab-tea-032" hidden><div class="panel-inner"><img src="tea/032.png" alt=""></div></div>
+    <div class="panel" role="tabpanel" id="panel-tea-033" aria-labelledby="tab-tea-033" hidden><div class="panel-inner"><img src="tea/033.png" alt=""></div></div>
+
+    <!-- 班級 -->
+    <div class="panel" role="tabpanel" id="panel-class-71" aria-labelledby="tab-class-71" hidden><div class="panel-inner"><img src="class/71.png" alt=""></div></div>
+    <div class="panel" role="tabpanel" id="panel-class-72" aria-labelledby="tab-class-72" hidden><div class="panel-inner"><img src="class/72.png" alt=""></div></div>
+    <div class="panel" role="tabpanel" id="panel-class-73" aria-labelledby="tab-class-73" hidden><div class="panel-inner"><img src="class/73.png" alt=""></div></div>
+    <div class="panel" role="tabpanel" id="panel-class-81" aria-labelledby="tab-class-81" hidden><div class="panel-inner"><img src="class/81.png" alt=""></div></div>
+    <div class="panel" role="tabpanel" id="panel-class-82" aria-labelledby="tab-class-82" hidden><div class="panel-inner"><img src="class/82.png" alt=""></div></div>
+    <div class="panel" role="tabpanel" id="panel-class-83" aria-labelledby="tab-class-83" hidden><div class="panel-inner"><img src="class/83.png" alt=""></div></div>
+    <div class="panel" role="tabpanel" id="panel-class-84" aria-labelledby="tab-class-84" hidden><div class="panel-inner"><img src="class/84.png" alt=""></div></div>
+    <div class="panel" role="tabpanel" id="panel-class-91" aria-labelledby="tab-class-91" hidden><div class="panel-inner"><img src="class/91.png" alt=""></div></div>
+    <div class="panel" role="tabpanel" id="panel-class-92" aria-labelledby="tab-class-92" hidden><div class="panel-inner"><img src="class/92.png" alt=""></div></div>
+    <div class="panel" role="tabpanel" id="panel-class-93" aria-labelledby="tab-class-93" hidden><div class="panel-inner"><img src="class/93.png" alt=""></div></div>
+    <div class="panel" role="tabpanel" id="panel-class-94" aria-labelledby="tab-class-94" hidden><div class="panel-inner"><img src="class/94.png" alt=""></div></div>
+  </div>
+</div>
+
+<script>
+/* 無依賴 ARIA Tabs：滑鼠/鍵盤可操作、缺面板不報錯 */
+(function(){
+  const tablist = document.querySelector('[role="tablist"]');
+  const tabs = Array.from(tablist.querySelectorAll('[role="tab"]'));
+  const panels = tabs.map(t => document.getElementById(t.getAttribute('aria-controls')));
+
+  function activateTab(tab){
+    tabs.forEach((t,i)=>{
+      const selected = (t===tab);
+      t.setAttribute('aria-selected', selected);
+      t.tabIndex = selected ? 0 : -1;
+      if (panels[i]) panels[i].hidden = !selected; // 防呆
+    });
+    tab.focus();
+  }
+
+  tabs.forEach(t => t.addEventListener('click', ()=>activateTab(t)));
+
+  tablist.addEventListener('keydown', e=>{
+    const i = tabs.indexOf(document.activeElement);
+    if(i<0) return;
+    if(e.key==='ArrowRight'){e.preventDefault(); activateTab(tabs[(i+1)%tabs.length]);}
+    else if(e.key==='ArrowLeft'){e.preventDefault(); activateTab(tabs[(i-1+tabs.length)%tabs.length]);}
+    else if(e.key==='Home'){e.preventDefault(); activateTab(tabs[0]);}
+    else if(e.key==='End'){e.preventDefault(); activateTab(tabs[tabs.length-1]);}
+  });
+
+  const firstSelected = tabs.find(t=>t.getAttribute('aria-selected')==='true') || tabs[0];
+  activateTab(firstSelected);
+})();
+
+/* 深/淺色切換：手動優先，並記憶在 localStorage */
+(function(){
+  const KEY = 'theme';
+  const btn = document.getElementById('themeToggle');
+
+  // 依儲存值設定
+  const saved = localStorage.getItem(KEY); // 'light' | 'dark' | null
+  if(saved === 'light'){ document.body.classList.add('light-mode'); btn.setAttribute('aria-pressed','false'); btn.textContent='🌙'; }
+  else if(saved === 'dark'){ document.body.classList.add('dark-mode'); btn.setAttribute('aria-pressed','true'); btn.textContent='☀️'; }
+  else{
+    // 沒儲存就跟隨系統；決定按鈕初始圖示
+    const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+    btn.textContent = prefersDark ? '☀️' : '🌙';
+    btn.setAttribute('aria-pressed', prefersDark ? 'true' : 'false');
+  }
+
+  btn.addEventListener('click', ()=>{
+    const isDark = document.body.classList.toggle('dark-mode');
+    if(isDark) document.body.classList.remove('light-mode');
+    else document.body.classList.add('light-mode');
+
+    btn.textContent = isDark ? '☀️' : '🌙';
+    btn.setAttribute('aria-pressed', isDark ? 'true' : 'false');
+    localStorage.setItem(KEY, isDark ? 'dark' : 'light');
+  });
+
+  // 若使用者改系統主題且未手動覆蓋，更新圖示
+  const mq = window.matchMedia('(prefers-color-scheme: dark)');
+  mq.addEventListener?.('change', e=>{
+    const overridden = localStorage.getItem(KEY);
+    if(overridden) return; // 有手動覆蓋就不理系統變化
+    const prefersDark = e.matches;
+    btn.textContent = prefersDark ? '☀️' : '🌙';
+    btn.setAttribute('aria-pressed', prefersDark ? 'true' : 'false');
+  });
+})();
+</script>
+
+</body>
+</html>
