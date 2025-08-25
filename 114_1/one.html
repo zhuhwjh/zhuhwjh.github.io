@@ -100,7 +100,6 @@ body{
   outline-offset:-1px; /* 貼齊按鈕邊緣 */
 }
 
-/* ========== 關鍵修正：預設就有「回饋」 ========== */
 /* 任何環境下：hover / selected 預設樣式（淺色友善） */
 .tab:hover,
 .tab[aria-selected="true"]{
@@ -146,13 +145,12 @@ body.dark-mode .tab[aria-selected="true"],
 <!-- 版頭（貼齊下方按鈕） -->
 <div class="topbar" role="banner">
   <a href="https://hwjh.ylc.edu.tw/" target="_blank" rel="noopener">虎國</a>114-1
-  <span class="date">(08.21)</span>
-    <a href="https://hwjh.ylc.edu.tw/News_Photo_Content.aspx?n=30281&s=334583" target="_blank" rel="noopener">新作息時間</a>｜
+  <span class="date">(08.25)</span>
+  <a href="https://hwjh.ylc.edu.tw/News_Photo_Content.aspx?n=30281&s=334583" target="_blank" rel="noopener">新作息時間</a>｜
   <a href="phone.pdf" target="_blank" rel="noopener">分機</a>｜
   <a href="indexs.html" target="_blank" rel="noopener">座位</a>｜
   <a href="traffic_guard.pdf" target="_blank" rel="noopener">導護</a>｜
   <a href="https://github.com/" target="_blank" rel="noopener">後臺</a>｜
-
 
   <!-- 深/淺色切換按鈕 -->
   <button id="themeToggle" class="theme-toggle" type="button" aria-label="切換深淺色" aria-pressed="false">🌙</button>
@@ -202,6 +200,8 @@ body.dark-mode .tab[aria-selected="true"],
     <li><button class="tab" role="tab" id="tab-tea-031" aria-controls="panel-tea-031" aria-selected="false" tabindex="-1">威達</button></li>
     <li><button class="tab" role="tab" id="tab-tea-032" aria-controls="panel-tea-032" aria-selected="false" tabindex="-1">羽彤</button></li>
     <li><button class="tab" role="tab" id="tab-tea-033" aria-controls="panel-tea-033" aria-selected="false" tabindex="-1">靜雪</button></li>
+    <!-- 修正：新增正確的 蕭莉蓁 老師（037） -->
+    <li><button class="tab" role="tab" id="tab-tea-037" aria-controls="panel-tea-037" aria-selected="false" tabindex="-1">莉蓁</button></li>
 
     <!-- 班級 -->
     <li><button class="tab" role="tab" id="tab-class-71" aria-controls="panel-class-71" aria-selected="false" tabindex="-1">七１</button></li>
@@ -221,63 +221,65 @@ body.dark-mode .tab[aria-selected="true"],
   <div class="panels">
     <!-- 類別 -->
     <div class="panel" role="tabpanel" id="panel-lab-com" aria-labelledby="tab-lab-com">
-      <div class="panel-inner"><img src="lab/com.png" alt=""></div>
+      <div class="panel-inner"><img src="lab/com.png" alt="電腦教室課表"></div>
     </div>
     <div class="panel" role="tabpanel" id="panel-lab-it"  aria-labelledby="tab-lab-it"  hidden>
-      <div class="panel-inner"><img src="lab/it.png" alt=""></div>
+      <div class="panel-inner"><img src="lab/it.png" alt="資科教室課表"></div>
     </div>
     <div class="panel" role="tabpanel" id="panel-lab-pe"  aria-labelledby="tab-lab-pe"  hidden>
-      <div class="panel-inner"><img src="lab/pe.png" alt=""></div>
+      <div class="panel-inner"><img src="lab/pe.png" alt="體育場地課表"></div>
     </div>
 
-    <!-- 老師（001~033 + Andy） -->
-    <div class="panel" role="tabpanel" id="panel-tea-001" aria-labelledby="tab-tea-001" hidden><div class="panel-inner"><img src="tea/001.png" alt=""></div></div>
-    <div class="panel" role="tabpanel" id="panel-tea-002" aria-labelledby="tab-tea-002" hidden><div class="panel-inner"><img src="tea/002.png" alt=""></div></div>
-    <div class="panel" role="tabpanel" id="panel-tea-003" aria-labelledby="tab-tea-003" hidden><div class="panel-inner"><img src="tea/003.png" alt=""></div></div>
-    <div class="panel" role="tabpanel" id="panel-tea-004" aria-labelledby="tab-tea-004" hidden><div class="panel-inner"><img src="tea/004.png" alt=""></div></div>
-    <div class="panel" role="tabpanel" id="panel-tea-005" aria-labelledby="tab-tea-005" hidden><div class="panel-inner"><img src="tea/005.png" alt=""></div></div>
-    <div class="panel" role="tabpanel" id="panel-tea-006" aria-labelledby="tab-tea-006" hidden><div class="panel-inner"><img src="tea/006.png" alt=""></div></div>
-    <div class="panel" role="tabpanel" id="panel-tea-andy" aria-labelledby="tab-tea-andy" hidden><div class="panel-inner"><img src="tea/andy.png" alt=""></div></div>
-    <div class="panel" role="tabpanel" id="panel-tea-007" aria-labelledby="tab-tea-007" hidden><div class="panel-inner"><img src="tea/007.png" alt=""></div></div>
-    <div class="panel" role="tabpanel" id="panel-tea-008" aria-labelledby="tab-tea-008" hidden><div class="panel-inner"><img src="tea/008.png" alt=""></div></div>
-    <div class="panel" role="tabpanel" id="panel-tea-009" aria-labelledby="tab-tea-009" hidden><div class="panel-inner"><img src="tea/009.png" alt=""></div></div>
-    <div class="panel" role="tabpanel" id="panel-tea-010" aria-labelledby="tab-tea-010" hidden><div class="panel-inner"><img src="tea/010.png" alt=""></div></div>
-    <div class="panel" role="tabpanel" id="panel-tea-011" aria-labelledby="tab-tea-011" hidden><div class="panel-inner"><img src="tea/011.png" alt=""></div></div>
-    <div class="panel" role="tabpanel" id="panel-tea-012" aria-labelledby="tab-tea-012" hidden><div class="panel-inner"><img src="tea/012.png" alt=""></div></div>
-    <div class="panel" role="tabpanel" id="panel-tea-013" aria-labelledby="tab-tea-013" hidden><div class="panel-inner"><img src="tea/013.png" alt=""></div></div>
-    <div class="panel" role="tabpanel" id="panel-tea-014" aria-labelledby="tab-tea-014" hidden><div class="panel-inner"><img src="tea/014.png" alt=""></div></div>
-    <div class="panel" role="tabpanel" id="panel-tea-015" aria-labelledby="tab-tea-015" hidden><div class="panel-inner"><img src="tea/015.png" alt=""></div></div>
-    <div class="panel" role="tabpanel" id="panel-tea-016" aria-labelledby="tab-tea-016" hidden><div class="panel-inner"><img src="tea/016.png" alt=""></div></div>
-    <div class="panel" role="tabpanel" id="panel-tea-017" aria-labelledby="tab-tea-017" hidden><div class="panel-inner"><img src="tea/017.png" alt=""></div></div>
-    <div class="panel" role="tabpanel" id="panel-tea-018" aria-labelledby="tab-tea-018" hidden><div class="panel-inner"><img src="tea/018.png" alt=""></div></div>
-    <div class="panel" role="tabpanel" id="panel-tea-019" aria-labelledby="tab-tea-019" hidden><div class="panel-inner"><img src="tea/019.png" alt=""></div></div>
-    <div class="panel" role="tabpanel" id="panel-tea-020" aria-labelledby="tab-tea-020" hidden><div class="panel-inner"><img src="tea/020.png" alt=""></div></div>
-    <div class="panel" role="tabpanel" id="panel-tea-021" aria-labelledby="tab-tea-021" hidden><div class="panel-inner"><img src="tea/021.png" alt=""></div></div>
-    <div class="panel" role="tabpanel" id="panel-tea-022" aria-labelledby="tab-tea-022" hidden><div class="panel-inner"><img src="tea/022.png" alt=""></div></div>
-    <div class="panel" role="tabpanel" id="panel-tea-023" aria-labelledby="tab-tea-023" hidden><div class="panel-inner"><img src="tea/023.png" alt=""></div></div>
-    <div class="panel" role="tabpanel" id="panel-tea-024" aria-labelledby="tab-tea-024" hidden><div class="panel-inner"><img src="tea/024.png" alt=""></div></div>
-    <div class="panel" role="tabpanel" id="panel-tea-025" aria-labelledby="tab-tea-025" hidden><div class="panel-inner"><img src="tea/025.png" alt=""></div></div>
-    <div class="panel" role="tabpanel" id="panel-tea-026" aria-labelledby="tab-tea-026" hidden><div class="panel-inner"><img src="tea/026.png" alt=""></div></div>
-    <div class="panel" role="tabpanel" id="panel-tea-027" aria-labelledby="tab-tea-027" hidden><div class="panel-inner"><img src="tea/027.png" alt=""></div></div>
-    <div class="panel" role="tabpanel" id="panel-tea-028" aria-labelledby="tab-tea-028" hidden><div class="panel-inner"><img src="tea/028.png" alt=""></div></div>
-    <div class="panel" role="tabpanel" id="panel-tea-029" aria-labelledby="tab-tea-029" hidden><div class="panel-inner"><img src="tea/029.png" alt=""></div></div>
-    <div class="panel" role="tabpanel" id="panel-tea-030" aria-labelledby="tab-tea-030" hidden><div class="panel-inner"><img src="tea/030.png" alt=""></div></div>
-    <div class="panel" role="tabpanel" id="panel-tea-031" aria-labelledby="tab-tea-031" hidden><div class="panel-inner"><img src="tea/031.png" alt=""></div></div>
-    <div class="panel" role="tabpanel" id="panel-tea-032" aria-labelledby="tab-tea-032" hidden><div class="panel-inner"><img src="tea/032.png" alt=""></div></div>
-    <div class="panel" role="tabpanel" id="panel-tea-033" aria-labelledby="tab-tea-033" hidden><div class="panel-inner"><img src="tea/033.png" alt=""></div></div>
+    <!-- 老師（001~033 + Andy + 037） -->
+    <div class="panel" role="tabpanel" id="panel-tea-001" aria-labelledby="tab-tea-001" hidden><div class="panel-inner"><img src="tea/001.png" alt="晏柔課表"></div></div>
+    <div class="panel" role="tabpanel" id="panel-tea-002" aria-labelledby="tab-tea-002" hidden><div class="panel-inner"><img src="tea/002.png" alt="思穎課表"></div></div>
+    <div class="panel" role="tabpanel" id="panel-tea-003" aria-labelledby="tab-tea-003" hidden><div class="panel-inner"><img src="tea/003.png" alt="雪梅課表"></div></div>
+    <div class="panel" role="tabpanel" id="panel-tea-004" aria-labelledby="tab-tea-004" hidden><div class="panel-inner"><img src="tea/004.png" alt="9-3淑英課表"></div></div>
+    <div class="panel" role="tabpanel" id="panel-tea-005" aria-labelledby="tab-tea-005" hidden><div class="panel-inner"><img src="tea/005.png" alt="若葳課表"></div></div>
+    <div class="panel" role="tabpanel" id="panel-tea-006" aria-labelledby="tab-tea-006" hidden><div class="panel-inner"><img src="tea/006.png" alt="昊霖課表"></div></div>
+    <div class="panel" role="tabpanel" id="panel-tea-andy" aria-labelledby="tab-tea-andy" hidden><div class="panel-inner"><img src="tea/andy.png" alt="Andy 課表"></div></div>
+    <div class="panel" role="tabpanel" id="panel-tea-007" aria-labelledby="tab-tea-007" hidden><div class="panel-inner"><img src="tea/007.png" alt="珮真課表"></div></div>
+    <div class="panel" role="tabpanel" id="panel-tea-008" aria-labelledby="tab-tea-008" hidden><div class="panel-inner"><img src="tea/008.png" alt="怡伶課表"></div></div>
+    <div class="panel" role="tabpanel" id="panel-tea-009" aria-labelledby="tab-tea-009" hidden><div class="panel-inner"><img src="tea/009.png" alt="淑敏課表"></div></div>
+    <div class="panel" role="tabpanel" id="panel-tea-010" aria-labelledby="tab-tea-010" hidden><div class="panel-inner"><img src="tea/010.png" alt="怡方課表"></div></div>
+    <div class="panel" role="tabpanel" id="panel-tea-011" aria-labelledby="tab-tea-011" hidden><div class="panel-inner"><img src="tea/011.png" alt="頤庭課表"></div></div>
+    <div class="panel" role="tabpanel" id="panel-tea-012" aria-labelledby="tab-tea-012" hidden><div class="panel-inner"><img src="tea/012.png" alt="春池課表"></div></div>
+    <div class="panel" role="tabpanel" id="panel-tea-013" aria-labelledby="tab-tea-013" hidden><div class="panel-inner"><img src="tea/013.png" alt="之敏課表"></div></div>
+    <div class="panel" role="tabpanel" id="panel-tea-014" aria-labelledby="tab-tea-014" hidden><div class="panel-inner"><img src="tea/014.png" alt="淑琳課表"></div></div>
+    <div class="panel" role="tabpanel" id="panel-tea-015" aria-labelledby="tab-tea-015" hidden><div class="panel-inner"><img src="tea/015.png" alt="7-1靜芬課表"></div></div>
+    <div class="panel" role="tabpanel" id="panel-tea-016" aria-labelledby="tab-tea-016" hidden><div class="panel-inner"><img src="tea/016.png" alt="順閔課表"></div></div>
+    <div class="panel" role="tabpanel" id="panel-tea-017" aria-labelledby="tab-tea-017" hidden><div class="panel-inner"><img src="tea/017.png" alt="7-2永欽課表"></div></div>
+    <div class="panel" role="tabpanel" id="panel-tea-018" aria-labelledby="tab-tea-018" hidden><div class="panel-inner"><img src="tea/018.png" alt="迪元課表"></div></div>
+    <div class="panel" role="tabpanel" id="panel-tea-019" aria-labelledby="tab-tea-019" hidden><div class="panel-inner"><img src="tea/019.png" alt="7-3慧珊課表"></div></div>
+    <div class="panel" role="tabpanel" id="panel-tea-020" aria-labelledby="tab-tea-020" hidden><div class="panel-inner"><img src="tea/020.png" alt="上峯課表"></div></div>
+    <div class="panel" role="tabpanel" id="panel-tea-021" aria-labelledby="tab-tea-021" hidden><div class="panel-inner"><img src="tea/021.png" alt="育琳課表"></div></div>
+    <div class="panel" role="tabpanel" id="panel-tea-022" aria-labelledby="tab-tea-022" hidden><div class="panel-inner"><img src="tea/022.png" alt="柔茜課表"></div></div>
+    <div class="panel" role="tabpanel" id="panel-tea-023" aria-labelledby="tab-tea-023" hidden><div class="panel-inner"><img src="tea/023.png" alt="如立課表"></div></div>
+    <div class="panel" role="tabpanel" id="panel-tea-024" aria-labelledby="tab-tea-024" hidden><div class="panel-inner"><img src="tea/024.png" alt="雅燁課表"></div></div>
+    <div class="panel" role="tabpanel" id="panel-tea-025" aria-labelledby="tab-tea-025" hidden><div class="panel-inner"><img src="tea/025.png" alt="國興課表"></div></div>
+    <div class="panel" role="tabpanel" id="panel-tea-026" aria-labelledby="tab-tea-026" hidden><div class="panel-inner"><img src="tea/026.png" alt="政澤課表"></div></div>
+    <div class="panel" role="tabpanel" id="panel-tea-027" aria-labelledby="tab-tea-027" hidden><div class="panel-inner"><img src="tea/027.png" alt="9-4玫芬課表"></div></div>
+    <div class="panel" role="tabpanel" id="panel-tea-028" aria-labelledby="tab-tea-028" hidden><div class="panel-inner"><img src="tea/028.png" alt="8-2麗秋課表"></div></div>
+    <div class="panel" role="tabpanel" id="panel-tea-029" aria-labelledby="tab-tea-029" hidden><div class="panel-inner"><img src="tea/029.png" alt="8-4詠明課表"></div></div>
+    <div class="panel" role="tabpanel" id="panel-tea-030" aria-labelledby="tab-tea-030" hidden><div class="panel-inner"><img src="tea/030.png" alt="信遠課表"></div></div>
+    <div class="panel" role="tabpanel" id="panel-tea-031" aria-labelledby="tab-tea-031" hidden><div class="panel-inner"><img src="tea/031.png" alt="威達課表"></div></div>
+    <div class="panel" role="tabpanel" id="panel-tea-032" aria-labelledby="tab-tea-032" hidden><div class="panel-inner"><img src="tea/032.png" alt="羽彤課表"></div></div>
+    <div class="panel" role="tabpanel" id="panel-tea-033" aria-labelledby="tab-tea-033" hidden><div class="panel-inner"><img src="tea/033.png" alt="靜雪課表"></div></div>
+    <!-- 修正：新增正確的 037 面板，避免重複 ID -->
+    <div class="panel" role="tabpanel" id="panel-tea-037" aria-labelledby="tab-tea-037" hidden><div class="panel-inner"><img src="tea/037.png" alt="莉蓁老師課表"></div></div>
 
     <!-- 班級 -->
-    <div class="panel" role="tabpanel" id="panel-class-71" aria-labelledby="tab-class-71" hidden><div class="panel-inner"><img src="class/71.png" alt=""></div></div>
-    <div class="panel" role="tabpanel" id="panel-class-72" aria-labelledby="tab-class-72" hidden><div class="panel-inner"><img src="class/72.png" alt=""></div></div>
-    <div class="panel" role="tabpanel" id="panel-class-73" aria-labelledby="tab-class-73" hidden><div class="panel-inner"><img src="class/73.png" alt=""></div></div>
-    <div class="panel" role="tabpanel" id="panel-class-81" aria-labelledby="tab-class-81" hidden><div class="panel-inner"><img src="class/81.png" alt=""></div></div>
-    <div class="panel" role="tabpanel" id="panel-class-82" aria-labelledby="tab-class-82" hidden><div class="panel-inner"><img src="class/82.png" alt=""></div></div>
-    <div class="panel" role="tabpanel" id="panel-class-83" aria-labelledby="tab-class-83" hidden><div class="panel-inner"><img src="class/83.png" alt=""></div></div>
-    <div class="panel" role="tabpanel" id="panel-class-84" aria-labelledby="tab-class-84" hidden><div class="panel-inner"><img src="class/84.png" alt=""></div></div>
-    <div class="panel" role="tabpanel" id="panel-class-91" aria-labelledby="tab-class-91" hidden><div class="panel-inner"><img src="class/91.png" alt=""></div></div>
-    <div class="panel" role="tabpanel" id="panel-class-92" aria-labelledby="tab-class-92" hidden><div class="panel-inner"><img src="class/92.png" alt=""></div></div>
-    <div class="panel" role="tabpanel" id="panel-class-93" aria-labelledby="tab-class-93" hidden><div class="panel-inner"><img src="class/93.png" alt=""></div></div>
-    <div class="panel" role="tabpanel" id="panel-class-94" aria-labelledby="tab-class-94" hidden><div class="panel-inner"><img src="class/94.png" alt=""></div></div>
+    <div class="panel" role="tabpanel" id="panel-class-71" aria-labelledby="tab-class-71" hidden><div class="panel-inner"><img src="class/71.png" alt="七年一班課表"></div></div>
+    <div class="panel" role="tabpanel" id="panel-class-72" aria-labelledby="tab-class-72" hidden><div class="panel-inner"><img src="class/72.png" alt="七年二班課表"></div></div>
+    <div class="panel" role="tabpanel" id="panel-class-73" aria-labelledby="tab-class-73" hidden><div class="panel-inner"><img src="class/73.png" alt="七年三班課表"></div></div>
+    <div class="panel" role="tabpanel" id="panel-class-81" aria-labelledby="tab-class-81" hidden><div class="panel-inner"><img src="class/81.png" alt="八年一班課表"></div></div>
+    <div class="panel" role="tabpanel" id="panel-class-82" aria-labelledby="tab-class-82" hidden><div class="panel-inner"><img src="class/82.png" alt="八年二班課表"></div></div>
+    <div class="panel" role="tabpanel" id="panel-class-83" aria-labelledby="tab-class-83" hidden><div class="panel-inner"><img src="class/83.png" alt="八年三班課表"></div></div>
+    <div class="panel" role="tabpanel" id="panel-class-84" aria-labelledby="tab-class-84" hidden><div class="panel-inner"><img src="class/84.png" alt="八年四班課表"></div></div>
+    <div class="panel" role="tabpanel" id="panel-class-91" aria-labelledby="tab-class-91" hidden><div class="panel-inner"><img src="class/91.png" alt="九年一班課表"></div></div>
+    <div class="panel" role="tabpanel" id="panel-class-92" aria-labelledby="tab-class-92" hidden><div class="panel-inner"><img src="class/92.png" alt="九年二班課表"></div></div>
+    <div class="panel" role="tabpanel" id="panel-class-93" aria-labelledby="tab-class-93" hidden><div class="panel-inner"><img src="class/93.png" alt="九年三班課表"></div></div>
+    <div class="panel" role="tabpanel" id="panel-class-94" aria-labelledby="tab-class-94" hidden><div class="panel-inner"><img src="class/94.png" alt="九年四班課表"></div></div>
   </div>
 </div>
 
