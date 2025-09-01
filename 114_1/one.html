@@ -8,30 +8,16 @@
 <style>
 /* ================= THEME：虎尾橘 + 無障礙（AA） ================= */
 :root{
-  /* Light theme（柔和橘、低眩光） */
-  --bg:        #fff7ed;   /* orange-50 */
-  --ink:       #1f2937;   /* slate-800 */
-  --brand:     #ea580c;   /* orange-600 (品牌橘) */
-  --brand-700: #c2410c;   /* orange-700（hover/selected 用，白字 AA） */
-  --soft:      #ffe8d5;   /* 卡片淺橘底 */
-  --line:      #f1c9a8;   /* 橘系淡邊線 */
-  --focus:     #7c3aed;   /* 聚焦輪廓（紫），與橘對比清楚 */
+  --bg:#fff7ed; --ink:#1f2937; --brand:#ea580c; --brand-700:#c2410c;
+  --soft:#ffe8d5; --line:#f1c9a8; --focus:#7c3aed;
 }
-
 @media (prefers-color-scheme: dark){
   :root{
-    /* Dark theme（低眩光深底） */
-    --bg:    #0f1115;
-    --ink:   #e5e7eb;    /* 淺字 */
-    --brand: #f59e0b;    /* 深色底用較亮橘 */
-    --brand-700:#f0a314; /* hover/selected 稍深 */
-    --soft:  #1a1d22;    /* 深卡片底 */
-    --line:  #2a2f36;
-    --focus: #f59e0b;    /* 深底聚焦改用橘 */
+    --bg:#0f1115; --ink:#e5e7eb; --brand:#f59e0b; --brand-700:#f0a314;
+    --soft:#1a1d22; --line:#2a2f36; --focus:#f59e0b;
   }
 }
-
-/* ====== 使用者強制覆蓋（按鈕切換） ====== */
+/* 使用者強制覆蓋 */
 body.light-mode{
   --bg:#fff7ed; --ink:#1f2937; --brand:#ea580c; --brand-700:#c2410c;
   --soft:#ffe8d5; --line:#f1c9a8; --focus:#7c3aed;
@@ -49,23 +35,18 @@ body{
   -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
 }
 
-/* ================= Topbar（與按鈕緊黏） ================= */
+/* ================= Topbar ================= */
 .topbar{
-  position:relative; /* 給切換鍵定位 */
-  text-align:center; font-size:14px; padding:6px 0;
-  background:var(--bg); color:var(--ink);
-  user-select:none;
+  position:relative; text-align:center; font-size:14px; padding:6px 0;
+  background:var(--bg); color:var(--ink); user-select:none;
 }
 .topbar a{color:var(--brand); text-decoration:none; margin:0 6px}
 .topbar a:hover{color:var(--brand-700); text-decoration:underline}
 .topbar .date{color:var(--brand-700); font-weight:700}
-
-/* 深/淺色切換按鈕（右上角） */
 .theme-toggle{
   position:absolute; top:6px; right:10px;
   background:none; border:1px solid var(--line);
-  border-radius:8px; padding:4px 8px;
-  font-size:14px; line-height:1; cursor:pointer;
+  border-radius:8px; padding:4px 8px; font-size:14px; line-height:1; cursor:pointer;
   color:var(--brand); background:var(--soft);
 }
 .theme-toggle:hover{background:var(--brand-700); color:#fff; border-color:var(--brand-700)}
@@ -73,62 +54,33 @@ body{
 
 /* ================= Tabs ================= */
 .tabs{max-width:1280px; margin:0 auto;}
-
-/* 標籤列：上下左右相黏（多行也無縫） */
 .tablist{
-  display:flex; flex-wrap:wrap;
-  list-style:none; padding:0; margin:0;
-  background:var(--bg);
-  border-top:1px solid var(--line);
-  border-bottom:1px solid var(--line);
+  display:flex; flex-wrap:wrap; list-style:none; padding:0; margin:0;
+  background:var(--bg); border-top:1px solid var(--line); border-bottom:1px solid var(--line);
 }
-
-/* 用 -1px 負邊距把相鄰邊框合併，保證上下左右都貼齊 */
 .tab{
   appearance:none; background:var(--soft); color:var(--ink);
   border:1px solid var(--line);
   padding:4px 10px; font-size:13px; line-height:1.2;
-  cursor:pointer; user-select:none;
-  margin:0;
-  margin-left:-1px;       /* 左右相黏 */
-  margin-top:-1px;        /* 上下相黏（多行也無縫） */
+  cursor:pointer; user-select:none; margin:0;
+  margin-left:-1px; margin-top:-1px;
   transition:background .15s ease,color .15s ease,border-color .15s ease;
 }
 .tab:first-child{margin-left:0}
-.tab:focus-visible{
-  outline:3px solid var(--focus);
-  outline-offset:-1px; /* 貼齊按鈕邊緣 */
-}
-
-/* 任何環境下：hover / selected 預設樣式（淺色友善） */
+.tab:focus-visible{outline:3px solid var(--focus); outline-offset:-1px}
 .tab:hover,
-.tab[aria-selected="true"]{
-  background: var(--brand-700);
-  color:#fff;
-  border-color: var(--brand-700);
-}
-
-/* 深色模式覆蓋：hover / selected 改成橘底 + 深字（AA 對比） */
+.tab[aria-selected="true"]{ background:var(--brand-700); color:#fff; border-color:var(--brand-700); }
 body.dark-mode .tab:hover,
-body.dark-mode .tab[aria-selected="true"],
-@media (prefers-color-scheme: dark){
-  body:not(.light-mode) .tab:hover,
-  body:not(.light-mode) .tab[aria-selected="true"]{
-    background: var(--brand);
-    color:#0f1115;
-    border-color: var(--brand);
-  }
+body.dark-mode .tab[aria-selected="true"]{
+  background:var(--brand); color:#0f1115; border-color:var(--brand);
 }
 
-/* ================= Panels（與按鈕緊黏，柔和卡片） ================= */
+/* ================= Panels ================= */
 .panels{margin:0; padding:8px;}
 .panel{display:block}
 .panel[hidden]{display:none}
 .panel-inner{
-  background:var(--soft);
-  border:1px solid var(--line);
-  border-radius:12px;
-  padding:8px;
+  background:var(--soft); border:1px solid var(--line); border-radius:12px; padding:8px;
 }
 .panel img{display:block; max-width:100%; height:auto; margin:auto}
 
@@ -142,30 +94,27 @@ body.dark-mode .tab[aria-selected="true"],
 </head>
 <body>
 
-<!-- 版頭（貼齊下方按鈕） -->
 <div class="topbar" role="banner">
   <a href="https://hwjh.ylc.edu.tw/" target="_blank" rel="noopener">虎國</a>114-1
-  <span class="date">(08.25)</span>
+  <span class="date">(08.29)</span>
   <a href="https://hwjh.ylc.edu.tw/News_Photo_Content.aspx?n=30281&s=334583" target="_blank" rel="noopener">新作息時間</a>｜
   <a href="phone.pdf" target="_blank" rel="noopener">分機</a>｜
   <a href="indexs.html" target="_blank" rel="noopener">座位</a>｜
-  <a href="traffic_guard.pdf" target="_blank" rel="noopener">導護</a>｜
+  <a href="traffic_guard.pdf" target="_blank" rel="noopener">導護(生教)</a>｜
+  <a href="dp.pdf" target="_blank">緊急應變小組(訓育)</a>｜
   <a href="https://github.com/" target="_blank" rel="noopener">後臺</a>｜
-
-  <!-- 深/淺色切換按鈕 -->
   <button id="themeToggle" class="theme-toggle" type="button" aria-label="切換深淺色" aria-pressed="false">🌙</button>
 </div>
 
-<!-- Tabs 主體 -->
 <div class="tabs" id="scheduleTabs">
-  <!-- 標籤列（完整，不省略） -->
   <ul class="tablist" role="tablist" aria-label="課表分類">
     <!-- 類別 -->
-    <li><button class="tab" role="tab" id="tab-lab-com" aria-controls="panel-lab-com" aria-selected="true"  tabindex="0">#電腦</button></li>
+    <li><button class="tab" role="tab" id="tab-lab-ht"  aria-controls="panel-lab-ht"  aria-selected="true"  tabindex="0">#導師</button></li>
+    <li><button class="tab" role="tab" id="tab-lab-com" aria-controls="panel-lab-com" aria-selected="false" tabindex="-1">#電腦</button></li>
     <li><button class="tab" role="tab" id="tab-lab-it"  aria-controls="panel-lab-it"  aria-selected="false" tabindex="-1">#資科</button></li>
     <li><button class="tab" role="tab" id="tab-lab-pe"  aria-controls="panel-lab-pe"  aria-selected="false" tabindex="-1">#體育</button></li>
 
-    <!-- 老師 -->
+    <!-- 老師（001～031 + Andy + 032～034 + 037） -->
     <li><button class="tab" role="tab" id="tab-tea-001" aria-controls="panel-tea-001" aria-selected="false" tabindex="-1">晏柔</button></li>
     <li><button class="tab" role="tab" id="tab-tea-002" aria-controls="panel-tea-002" aria-selected="false" tabindex="-1">思穎</button></li>
     <li><button class="tab" role="tab" id="tab-tea-003" aria-controls="panel-tea-003" aria-selected="false" tabindex="-1">雪梅</button></li>
@@ -198,12 +147,12 @@ body.dark-mode .tab[aria-selected="true"],
     <li><button class="tab" role="tab" id="tab-tea-029" aria-controls="panel-tea-029" aria-selected="false" tabindex="-1">8-4詠明</button></li>
     <li><button class="tab" role="tab" id="tab-tea-030" aria-controls="panel-tea-030" aria-selected="false" tabindex="-1">信遠</button></li>
     <li><button class="tab" role="tab" id="tab-tea-031" aria-controls="panel-tea-031" aria-selected="false" tabindex="-1">威達</button></li>
-    <li><button class="tab" role="tab" id="tab-tea-032" aria-controls="panel-tea-032" aria-selected="false" tabindex="-1">羽彤</button></li>
-    <li><button class="tab" role="tab" id="tab-tea-033" aria-controls="panel-tea-033" aria-selected="false" tabindex="-1">靜雪</button></li>
-    <!-- 修正：新增正確的 蕭莉蓁 老師（037） -->
+    <li><button class="tab" role="tab" id="tab-tea-032" aria-controls="panel-tea-032" aria-selected="false" tabindex="-1">軫如</button></li>
+    <li><button class="tab" role="tab" id="tab-tea-033" aria-controls="panel-tea-033" aria-selected="false" tabindex="-1">羽彤</button></li>
+    <li><button class="tab" role="tab" id="tab-tea-034" aria-controls="panel-tea-034" aria-selected="false" tabindex="-1">靜雪</button></li>
     <li><button class="tab" role="tab" id="tab-tea-037" aria-controls="panel-tea-037" aria-selected="false" tabindex="-1">莉蓁</button></li>
 
-    <!-- 班級 -->
+    <!-- 班級（七1～九4） -->
     <li><button class="tab" role="tab" id="tab-class-71" aria-controls="panel-class-71" aria-selected="false" tabindex="-1">七１</button></li>
     <li><button class="tab" role="tab" id="tab-class-72" aria-controls="panel-class-72" aria-selected="false" tabindex="-1">七２</button></li>
     <li><button class="tab" role="tab" id="tab-class-73" aria-controls="panel-class-73" aria-selected="false" tabindex="-1">七３</button></li>
@@ -217,20 +166,22 @@ body.dark-mode .tab[aria-selected="true"],
     <li><button class="tab" role="tab" id="tab-class-94" aria-controls="panel-class-94" aria-selected="false" tabindex="-1">九４</button></li>
   </ul>
 
-  <!-- 內容區（完整對應） -->
   <div class="panels">
     <!-- 類別 -->
-    <div class="panel" role="tabpanel" id="panel-lab-com" aria-labelledby="tab-lab-com">
+    <div class="panel" role="tabpanel" id="panel-lab-ht" aria-labelledby="tab-lab-ht">
+      <div class="panel-inner"><img src="class/ht.png" alt="導師課表"></div>
+    </div>
+    <div class="panel" role="tabpanel" id="panel-lab-com" aria-labelledby="tab-lab-com" hidden>
       <div class="panel-inner"><img src="lab/com.png" alt="電腦教室課表"></div>
     </div>
-    <div class="panel" role="tabpanel" id="panel-lab-it"  aria-labelledby="tab-lab-it"  hidden>
+    <div class="panel" role="tabpanel" id="panel-lab-it" aria-labelledby="tab-lab-it" hidden>
       <div class="panel-inner"><img src="lab/it.png" alt="資科教室課表"></div>
     </div>
-    <div class="panel" role="tabpanel" id="panel-lab-pe"  aria-labelledby="tab-lab-pe"  hidden>
+    <div class="panel" role="tabpanel" id="panel-lab-pe" aria-labelledby="tab-lab-pe" hidden>
       <div class="panel-inner"><img src="lab/pe.png" alt="體育場地課表"></div>
     </div>
 
-    <!-- 老師（001~033 + Andy + 037） -->
+    <!-- 老師（001～031 + Andy + 032～034 + 037） -->
     <div class="panel" role="tabpanel" id="panel-tea-001" aria-labelledby="tab-tea-001" hidden><div class="panel-inner"><img src="tea/001.png" alt="晏柔課表"></div></div>
     <div class="panel" role="tabpanel" id="panel-tea-002" aria-labelledby="tab-tea-002" hidden><div class="panel-inner"><img src="tea/002.png" alt="思穎課表"></div></div>
     <div class="panel" role="tabpanel" id="panel-tea-003" aria-labelledby="tab-tea-003" hidden><div class="panel-inner"><img src="tea/003.png" alt="雪梅課表"></div></div>
@@ -263,12 +214,12 @@ body.dark-mode .tab[aria-selected="true"],
     <div class="panel" role="tabpanel" id="panel-tea-029" aria-labelledby="tab-tea-029" hidden><div class="panel-inner"><img src="tea/029.png" alt="8-4詠明課表"></div></div>
     <div class="panel" role="tabpanel" id="panel-tea-030" aria-labelledby="tab-tea-030" hidden><div class="panel-inner"><img src="tea/030.png" alt="信遠課表"></div></div>
     <div class="panel" role="tabpanel" id="panel-tea-031" aria-labelledby="tab-tea-031" hidden><div class="panel-inner"><img src="tea/031.png" alt="威達課表"></div></div>
-    <div class="panel" role="tabpanel" id="panel-tea-032" aria-labelledby="tab-tea-032" hidden><div class="panel-inner"><img src="tea/032.png" alt="羽彤課表"></div></div>
-    <div class="panel" role="tabpanel" id="panel-tea-033" aria-labelledby="tab-tea-033" hidden><div class="panel-inner"><img src="tea/033.png" alt="靜雪課表"></div></div>
-    <!-- 修正：新增正確的 037 面板，避免重複 ID -->
+    <div class="panel" role="tabpanel" id="panel-tea-032" aria-labelledby="tab-tea-032" hidden><div class="panel-inner"><img src="tea/032.png" alt="軫如課表"></div></div>
+    <div class="panel" role="tabpanel" id="panel-tea-033" aria-labelledby="tab-tea-033" hidden><div class="panel-inner"><img src="tea/033.png" alt="羽彤課表"></div></div>
+    <div class="panel" role="tabpanel" id="panel-tea-034" aria-labelledby="tab-tea-034" hidden><div class="panel-inner"><img src="tea/034.png" alt="靜雪課表"></div></div>
     <div class="panel" role="tabpanel" id="panel-tea-037" aria-labelledby="tab-tea-037" hidden><div class="panel-inner"><img src="tea/037.png" alt="莉蓁老師課表"></div></div>
 
-    <!-- 班級 -->
+    <!-- 班級（七1～九4） -->
     <div class="panel" role="tabpanel" id="panel-class-71" aria-labelledby="tab-class-71" hidden><div class="panel-inner"><img src="class/71.png" alt="七年一班課表"></div></div>
     <div class="panel" role="tabpanel" id="panel-class-72" aria-labelledby="tab-class-72" hidden><div class="panel-inner"><img src="class/72.png" alt="七年二班課表"></div></div>
     <div class="panel" role="tabpanel" id="panel-class-73" aria-labelledby="tab-class-73" hidden><div class="panel-inner"><img src="class/73.png" alt="七年三班課表"></div></div>
@@ -284,18 +235,21 @@ body.dark-mode .tab[aria-selected="true"],
 </div>
 
 <script>
-/* 無依賴 ARIA Tabs：滑鼠/鍵盤可操作、缺面板不報錯 */
+/* 更穩健的 ARIA Tabs：用 aria-controls 對應 */
 (function(){
   const tablist = document.querySelector('[role="tablist"]');
-  const tabs = Array.from(tablist.querySelectorAll('[role="tab"]'));
-  const panels = tabs.map(t => document.getElementById(t.getAttribute('aria-controls')));
+  const tabs    = Array.from(tablist.querySelectorAll('[role="tab"]'));
+  const panels  = Array.from(document.querySelectorAll('[role="tabpanel"]'));
 
   function activateTab(tab){
-    tabs.forEach((t,i)=>{
-      const selected = (t===tab);
-      t.setAttribute('aria-selected', selected);
+    const targetId = tab.getAttribute('aria-controls');
+    tabs.forEach(t=>{
+      const selected = (t === tab);
+      t.setAttribute('aria-selected', selected ? 'true' : 'false');
       t.tabIndex = selected ? 0 : -1;
-      if (panels[i]) panels[i].hidden = !selected; // 防呆
+    });
+    panels.forEach(p=>{
+      p.hidden = (p.id !== targetId);
     });
     tab.focus();
   }
@@ -320,12 +274,10 @@ body.dark-mode .tab[aria-selected="true"],
   const KEY = 'theme';
   const btn = document.getElementById('themeToggle');
 
-  // 依儲存值設定
-  const saved = localStorage.getItem(KEY); // 'light' | 'dark' | null
+  const saved = localStorage.getItem(KEY);
   if(saved === 'light'){ document.body.classList.add('light-mode'); btn.setAttribute('aria-pressed','false'); btn.textContent='🌙'; }
   else if(saved === 'dark'){ document.body.classList.add('dark-mode'); btn.setAttribute('aria-pressed','true'); btn.textContent='☀️'; }
   else{
-    // 沒儲存就跟隨系統；決定按鈕初始圖示
     const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
     btn.textContent = prefersDark ? '☀️' : '🌙';
     btn.setAttribute('aria-pressed', prefersDark ? 'true' : 'false');
@@ -341,11 +293,10 @@ body.dark-mode .tab[aria-selected="true"],
     localStorage.setItem(KEY, isDark ? 'dark' : 'light');
   });
 
-  // 若使用者改系統主題且未手動覆蓋，更新圖示
   const mq = window.matchMedia('(prefers-color-scheme: dark)');
   mq.addEventListener?.('change', e=>{
     const overridden = localStorage.getItem(KEY);
-    if(overridden) return; // 有手動覆蓋就不理系統變化
+    if(overridden) return;
     const prefersDark = e.matches;
     btn.textContent = prefersDark ? '☀️' : '🌙';
     btn.setAttribute('aria-pressed', prefersDark ? 'true' : 'false');
